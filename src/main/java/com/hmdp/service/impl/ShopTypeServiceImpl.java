@@ -47,7 +47,7 @@ public class ShopTypeServiceImpl extends ServiceImpl<ShopTypeMapper, ShopType> i
             JSONArray jsonArray = JSONUtil.parseArray(shopTypeList);
             List<ShopType> shopTypes = JSONUtil.toList(jsonArray, ShopType.class);
             // 添加缓存有效期
-            stringRedisTemplate.expire(key, LOGIN_USER_TTL, TimeUnit.MINUTES);
+            //stringRedisTemplate.expire(key, SHOP_TYPE_TTL, TimeUnit.MINUTES);
             return Result.ok(shopTypes);
         }
 
