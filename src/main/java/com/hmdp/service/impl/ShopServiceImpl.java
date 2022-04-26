@@ -47,7 +47,7 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IS
             stringRedisTemplate.expire(cacheShopKey, CACHE_SHOP_TTL, TimeUnit.MINUTES);
             return Result.ok(shop);
         }
-        
+
         // 4.不存在，根据id查询数据库
         Shop shop = this.getById(id);
 

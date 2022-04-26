@@ -21,4 +21,5 @@ public class RedisConstants {
     public static final String USER_SIGN_KEY = "sign:";
 
     public static final String SHOP_TYPE_KEY = "shop:type";
+    public static final Long SHOP_TYPE_TTL = 30L;
 }
