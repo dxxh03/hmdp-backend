@@ -16,6 +16,7 @@ import javax.annotation.Resource;
 
 import java.util.concurrent.TimeUnit;
 
+import static com.hmdp.utils.RedisConstants.CACHE_SHOP_TTL;
 import static com.hmdp.utils.RedisConstants.LOGIN_USER_TTL;
 
 /**
@@ -43,7 +44,7 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IS
             // 3.存在，直接返回
             Shop shop = JSONUtil.toBean(shopJson, Shop.class);
             // 添加缓存有效期
-            stringRedisTemplate.expire(cacheShopKey, LOGIN_USER_TTL, TimeUnit.MINUTES);
+            stringRedisTemplate.expire(cacheShopKey, CACHE_SHOP_TTL, TimeUnit.MINUTES);
             return Result.ok(shop);
         }
 
@@ -55,11 +56,9 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IS
             return Result.fail("店铺不存在");
         }
 
-        // 6.存在，写入redis
-        stringRedisTemplate.opsForValue().set(cacheShopKey, JSONUtil.toJsonStr(shop));
+        // 6.存在，写入redis，并设置缓存有效期
+        stringRedisTemplate.opsForValue().set(cacheShopKey, JSONUtil.toJsonStr(shop), CACHE_SHOP_TTL, TimeUnit.MINUTES);
 
-        // 添加缓存有效期
-        stringRedisTemplate.expire(cacheShopKey, LOGIN_USER_TTL, TimeUnit.MINUTES);
 
         // 7.返回结果
         return Result.ok(shop);
